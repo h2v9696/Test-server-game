@@ -1,0 +1,6 @@
+[submodule "external/pixi-layout"]
+	path = external/pixi-layout
+	url = git@github.com:GreyRook/pixi-layout.git
+[submodule "external/pixi-shapes"]
+	path = external/pixi-shapes
+	url = git@github.com:GreyRook/pixi-shapes.git

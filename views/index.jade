@@ -1,11 +1,11 @@
 doctype html
 html
   head
-    title Your basic web app structure
+    meta(charset='utf-8')
+    title Missile game
+    script(src='/public/src/gown/docs/lib/pixi/pixi.js')
+    script(src='/public/src/tink.js')
+    script(src='/public/src/gown/docs/dist/gown.js')
   body
-    h1 Welcome to your basic web app structure
-    p
-      | Checkout the files to see how it is organized.
-    p
-      | Here is an example url
-    a(href="/comments/10") Comment with id 10
+    script(src='/public/src/game.js')
+    #content

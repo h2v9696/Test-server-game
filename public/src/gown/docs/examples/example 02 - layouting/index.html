@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: layouting</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+</head>
+<body>
+<script>
+    var stage = new PIXI.Container();
+    var sizes = {w: 800, h: 600};
+    var renderer = PIXI.autoDetectRenderer(sizes.w, sizes.h, {backgroundColor : 0xffffff});
+    var btn, grp;
+    document.body.appendChild(renderer.view);
+
+    function onCompleteAeon() {
+        grp = new GOWN.LayoutGroup();
+        grp.x = 20;
+        grp.y = 30;
+        grp.width = Math.floor(sizes.w - (grp.x*2));
+        grp.layout = new GOWN.layout.HorizontalLayout();
+        grp.layout.gap = 10;
+        stage.addChild(grp);
+
+        // create layout container and add some buttons
+        for (var i = 0; i < 10; i++) {
+            btn = new GOWN.Button();
+            btn.percentWidth = 100;
+            btn.height = 46;
+            btn.label = (i+1)+". button";
+            grp.addChild(btn);
+        }
+        btn.percentWidth = null;
+        btn.width = 110;
+
+        requestAnimationFrame(animate);
+    }
+
+    aeontheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+    aeontheme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+
+    function animate() {
+        // render the stage
+        renderer.render(stage);
+        requestAnimationFrame(animate);
+    }
+    GOWN.loader.load();
+</script>
+
+</body>
+</html>

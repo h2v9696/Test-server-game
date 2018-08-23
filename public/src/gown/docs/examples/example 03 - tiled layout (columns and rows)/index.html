@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: tiled layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+
+</head>
+<body>
+<script>
+    var stage = new PIXI.Container();
+    var sizes = {w: 800, h: 600};
+    var renderer = PIXI.autoDetectRenderer(sizes.w, sizes.h, {backgroundColor : 0xffffff});
+    var btn, grp, toggleButton
+    document.body.appendChild(renderer.view);
+
+    function onCompleteAeon() {
+        grp = new GOWN.LayoutGroup();
+        grp.x = 20;
+        grp.y = 80;
+        grp.width = sizes.w - (grp.x*2);
+        grp.height = sizes.h - (grp.y*2);
+
+        grp.layout = new GOWN.layout.TiledColumnsLayout();
+        grp.layout.gap = 10;
+        stage.addChild(grp);
+
+        // create layout container and add some buttons
+        for (var i = 0; i < 50; i++) {
+            btn = new GOWN.Button();
+            btn.width = 100;
+            btn.height = 40;
+            btn.label = (i+1)+". button";
+            grp.addChild(btn);
+        }
+
+        toggleButton = new GOWN.ToggleButton();
+        toggleButton.label = "switch row/column layout";
+        toggleButton.width = 720;
+        toggleButton.height = 40;
+
+        toggleButton.x = toggleButton.y = 20;
+        toggleButton.on(GOWN.Button.TRIGGERED, function () {
+            if (grp.layout._orientation == GOWN.layout.TiledLayout.ORIENTATION_ROWS) {
+                grp.layout._orientation = GOWN.layout.TiledLayout.ORIENTATION_COLUMNS;
+            } else {
+                grp.layout._orientation = GOWN.layout.TiledLayout.ORIENTATION_ROWS;
+            }
+            grp.layout._needUpdate = true;
+        });
+
+        stage.addChild(toggleButton);
+
+        requestAnimationFrame(animate);
+    }
+
+    var aeontheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+    aeontheme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+
+    function animate() {
+        // render the stage
+        renderer.render(stage);
+        requestAnimationFrame(animate);
+    }
+    GOWN.loader.load();
+</script>
+
+</body>
+</html>

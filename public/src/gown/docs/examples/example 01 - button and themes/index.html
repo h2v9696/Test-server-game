@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: Buttons with different themes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+</head>
+<body>
+<script>
+    var stage = new PIXI.Container();
+    var NUM_THEMES = 3;
+    var themesLoaded = 0;
+
+    var renderer = PIXI.autoDetectRenderer(800, 600,{backgroundColor : 0xffffff});
+    document.body.appendChild(renderer.view);
+
+    var aeontheme;
+    var aeonbtn;
+
+    function onCompleteAeon() {
+
+        aeonbtn = new GOWN.Button(aeontheme);
+        aeonbtn.width = 150;
+        aeonbtn.height = 100;
+        aeonbtn.x = 20;
+        aeonbtn.y = 30;
+        aeonbtn.label = "first";
+        stage.addChild(aeonbtn);
+
+        aeonbtn.on(GOWN.Button.TRIGGERED, function () {
+            if (window.console) {
+                console.log("you clicked the first button!");
+            }
+        });
+
+        themesLoaded++;
+        if (themesLoaded === NUM_THEMES) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    aeontheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+    aeontheme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+    var bootTheme;
+    var bootBtn;
+    function onCompleteBootstraphish() {
+        bootBtn = new GOWN.Button(bootTheme);
+        bootBtn.width = 150;
+        bootBtn.height = 100;
+        bootBtn.x = 170;
+        bootBtn.y = 30;
+        bootBtn.label = "second";
+        stage.addChild(bootBtn);
+
+        bootBtn.on(GOWN.Button.TRIGGERED, function () {
+            if (window.console) {
+                console.log("you clicked the second button!");
+            }
+        });
+        themesLoaded++;
+        if (themesLoaded === NUM_THEMES) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    bootTheme = new GOWN.ThemeParser('../../themes/assets/bootstrapish/bootstrapish.json');
+    bootTheme.once(GOWN.Theme.COMPLETE, onCompleteBootstraphish, this);
+
+    var metalbtn;
+    function onCompleteMetal() {
+        metalbtn = new GOWN.Button(metaltheme);
+        metalbtn.width = 150;
+        metalbtn.height = 100;
+        metalbtn.x = 320;
+        metalbtn.y = 30;
+        metalbtn.label = "third";
+        stage.addChild(metalbtn);
+
+        metalbtn.on(GOWN.Button.TRIGGERED, function () {
+            if (window.console) {
+                console.log("you clicked the third button!");
+            }
+        });
+
+        themesLoaded++;
+        if (themesLoaded === NUM_THEMES) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    var metaltheme = new GOWN.ThemeParser("../../themes/assets/metalworks_desktop/metalworks_desktop.json");
+    metaltheme.once(GOWN.Theme.COMPLETE, onCompleteMetal, this);
+
+    function animate() {
+        // render the stage
+        renderer.render(stage);
+        requestAnimationFrame(animate);
+    }
+    GOWN.loader.load();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: Login dialog (TextInput and Application)</title>
+    <style type="text/css">
+        @font-face {
+            font-family: 'FontAwesome';
+            font-weight: normal;
+            font-style: normal;
+            src: url('./fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
+        }
+    </style>
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <!-- see http://www.html5gamedevs.com/topic/13098-pixi-and-fontawesome/ -->
+    <!--link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"-->
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+
+    <script src="js/LoginDialog.js"></script>
+    <script src="js/IconTextInput.js"></script>
+</head>
+<body>
+<script src="lib/FontLoader.js"></script>
+<script>
+
+    // load fontawesome first, see https://github.com/smnh/FontLoader/issues/2
+    FontLoader.referenceText += "\uf007\uf023";
+    var fontLoader = new FontLoader(["FontAwesome"], {
+        "fontLoaded": awesomeComplete
+    }, 3000);
+    fontLoader.loadFonts();
+
+    function awesomeComplete(fontname) {
+        // fontawesome loaded correctly
+        var theme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+        theme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+
+        GOWN.loader.load();
+    }
+
+    var app;
+
+    function onCompleteAeon() {
+        // background
+        app = new GOWN.Application({
+            backgroundColor: [0x688080, 0x9ba992]},
+            GOWN.Application.SCREEN_MODE_FULLSCREEN);
+
+        var login = new LoginDialog(app);
+        app.addChild(login);
+        // initial resize
+        login.onResize({data: {
+            width: app._width,
+            height: app._height
+        }});
+    }
+</script>
+
+</body>
+</html>

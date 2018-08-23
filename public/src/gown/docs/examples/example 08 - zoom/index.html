@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: zoom</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+</head>
+<body>
+<script>
+    var stage = new PIXI.Container();
+    var sizes = {w: 800, h: 600};
+    var options = {backgroundColor : 0xffffff, roundPixels: true};
+    var renderer = PIXI.autoDetectRenderer(sizes.w, sizes.h, options);
+    document.body.appendChild(renderer.view);
+
+    var zoomContainer = new PIXI.Container();
+    zoomContainer.y = 100;
+    stage.addChild(zoomContainer);
+
+    var metaltheme = new GOWN.ThemeParser("../../themes/assets/metalworks_desktop/metalworks_desktop.json");
+    metaltheme.once(GOWN.Theme.COMPLETE, onCompleteMetal, this);
+
+    var aeontheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+    aeontheme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+
+    function onCompleteMetal() {
+        var button = new GOWN.Button(metaltheme);
+        button.x = 400;
+        button.width = 200;
+        button.height = 25;
+        button.label = 'metalworks button';
+        zoomContainer.addChild(button);
+    }
+
+    function onCompleteAeon() {
+        aeontheme.setSkin(
+            GOWN.ScrollBar.SKIN_NAME,
+            "horizontal_progress",
+            function () {
+                return new GOWN.shapes.Rect(0xff0000, 1.0, 20, 20);
+            }
+        );
+
+        var slider = new GOWN.Slider(aeontheme);
+
+        var txt = new GOWN.TextInput();
+        txt.width = 200;
+        txt.height = 30;
+        txt.change = function(text) {
+            slider.value = parseFloat(text);
+        };
+
+        txt.y = 50;
+
+        slider.change = function(sliderData) {
+            txt.text = sliderData.value.toFixed(2);
+            zoomContainer.scale.x = zoomContainer.scale.y = sliderData.value
+        };
+        slider.width = 300;
+        slider.minimum = 0.1;
+        slider.maximum = 2;
+        slider.value = 1;
+
+        stage.addChild(slider);
+        stage.addChild(txt);
+
+        var button = new GOWN.Button(aeontheme);
+        button.x = 100;
+        button.width = 100;
+        button.height = 25;
+        button.label = 'aeon button'
+        zoomContainer.addChild(button);
+
+        var button = new GOWN.Button(aeontheme);
+        button.x = 100;
+        button.y = 30;
+        button.width = 100;
+        button.height = 25;
+        button.label = 'scaling button'
+        button.resizeScaling = false;
+        zoomContainer.addChild(button);
+
+        button = new GOWN.Button(aeontheme);
+        button.x = 100;
+        button.y = 60;
+        button.width = 100;
+        button.height = 25;
+        button.minWidth = 80;
+        button.minHeight = 20;
+        button.label = 'min width';
+        button.resizeScaling = true;
+        zoomContainer.addChild(button);
+
+        button = new GOWN.Button(aeontheme);
+        button.x = 100;
+        button.y = 90;
+        button.rotation = 0.5;
+        button.width = 100;
+        button.height = 25;
+        button.label = 'o.O button'
+        zoomContainer.addChild(button);
+
+        requestAnimationFrame(animate);
+    }
+
+    function animate() {
+        // render the stage
+        renderer.render(stage);
+        requestAnimationFrame(animate);
+    }
+    GOWN.loader.load();
+</script>
+
+</body>
+</html>

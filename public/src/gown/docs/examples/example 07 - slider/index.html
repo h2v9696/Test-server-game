@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: slider</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+</head>
+<body>
+<script>
+    var stage = new PIXI.Container();
+    var sizes = {w: 800, h: 600};
+    var renderer = PIXI.autoDetectRenderer(sizes.w, sizes.h, {backgroundColor : 0xffffff});
+    document.body.appendChild(renderer.view);
+
+	var metalTheme = new GOWN.ThemeParser("../../themes/assets/metalworks_desktop/metalworks_desktop.json");
+	var aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+
+    var themesComplete = 0;
+	var slider = null;
+    var metalSlider = null;
+
+    function onCompleteMetal() {
+        metalSlider = new GOWN.Slider(metalTheme);
+        metalSlider.x = 400;
+        metalSlider.width = 300;
+        stage.addChild(metalSlider);
+        themesComplete++;
+        if (themesComplete == 2)
+            requestAnimationFrame(animate);
+    }
+
+    function onCompleteAeon() {
+        aeonTheme.setSkin(
+            GOWN.ScrollBar.SKIN_NAME,
+            "horizontal_progress",
+            function () {
+                var rect = new GOWN.shapes.Rect(0xff0000, 1.0, 10, 10);
+                return rect;
+            }
+        );
+
+        slider = new GOWN.Slider(aeonTheme);
+
+        var txt = new GOWN.TextInput();
+        txt.width = 200;
+        txt.height = 30;
+        txt.text = '0'
+        txt.change = function(text) {
+            slider.value = parseFloat(text);
+        };
+
+        txt.y = 100;
+
+
+        slider.on('change', function(sliderData) {
+            txt.text = sliderData.value;
+            if (window.console.log) {
+                console.log(sliderData.value);
+            }
+        });
+        slider.width = 300;
+        slider.minimum = 0;
+        slider.maximum = 100;
+
+        stage.addChild(slider);
+        stage.addChild(txt);
+        themesComplete++;
+        if (themesComplete == 2) {
+            requestAnimationFrame(animate);
+		}
+    }
+
+	metalTheme.once(GOWN.Theme.COMPLETE, onCompleteMetal, this);
+    aeonTheme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+
+    function animate() {
+        // render the stage
+        renderer.render(stage);
+        requestAnimationFrame(animate);
+    }
+    GOWN.loader.load();
+</script>
+
+</body>
+</html>

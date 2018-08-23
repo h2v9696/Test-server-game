@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>gown.js example: List</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+    </style>
+    <script src="../../lib/pixi/pixi.js"></script>
+    <script src="../../dist/gown.js"></script>
+</head>
+<body>
+<script>
+    var stage = new PIXI.Container();
+    var sizes = {w: 800, h: 600};
+    var renderer = PIXI.autoDetectRenderer(sizes.w, sizes.h, {backgroundColor : 0xffffff});
+    document.body.appendChild(renderer.view);
+
+    var groceryList = new GOWN.ListCollection([
+        { text: "Milk" },
+        { text: "Eggs" },
+        { text: "Bread" },
+        { text: "Chicken" },
+        { text: "Apple" },
+        { text: "Banana" },
+        { text: "Orange" },
+        { text: "Potato" }
+    ]);
+
+    // global varialbes to use in debugger
+    var metalList;
+    var aeonList;
+    var complete = 0;
+
+	var metalTheme = new GOWN.ThemeParser("../../themes/assets/metalworks_desktop/metalworks_desktop.json");
+	var aeonTheme = new GOWN.ThemeParser("../../themes/assets/aeon_desktop/aeon_desktop.json");
+
+    function onCompleteMetal() {
+        var list = metalList = new GOWN.List(metalTheme);
+        list.dataProvider = groceryList;
+        list.itemRendererProperties.labelField = "text";
+        list.viewPort.width = list.width = 100;
+        list.allowMultipleSelection = true;
+        list.height = 200;
+        list.viewPort.height = 250;
+        list.x = 400;
+        stage.addChild(list);
+
+
+        var logText = new PIXI.Text("please select sth.");
+        list.on('change', function (itemRenderer, value) {
+            var sel_text = "selected:";
+            for (var i = 0; i < list._selectedIndices.length; i++) {
+                sel_text += " " + groceryList.getItemAt(list._selectedIndices[i]).text;
+            }
+            logText.text = sel_text;
+        });
+        stage.addChild(logText);
+        logText.y = 300;
+        logText.x = 400;
+
+        complete++;
+        requestAnimationFrame(animate);
+    }
+
+    function onCompleteAeon() {
+        var list = aeonList = new GOWN.List(aeonTheme);
+        list.dataProvider = groceryList;
+        list.itemRendererProperties.labelField = "text";
+        list.viewPort.width = list.width = 100;
+        list.height = 200;
+        list.viewPort.height = 250;
+        stage.addChild(list);
+
+        var logText = new PIXI.Text("please select sth.");
+        list.on('change', function (itemRenderer, value) {
+            var sel_text = "selected:";
+            for (var i = 0; i < list._selectedIndices.length; i++) {
+                sel_text += " " + groceryList.getItemAt(list._selectedIndices[i]).text;
+            }
+            logText.text = sel_text;
+        });
+        stage.addChild(logText);
+        logText.y = 300;
+        logText.x = 0;
+
+        complete++;
+        requestAnimationFrame(animate);
+    }
+
+    metalTheme.once(GOWN.Theme.COMPLETE, onCompleteMetal, this);
+    aeonTheme.once(GOWN.Theme.COMPLETE, onCompleteAeon, this);
+
+    function animate() {
+        // render the stage
+        if (complete == 2) {
+            renderer.render(stage);
+            requestAnimationFrame(animate);
+        }
+    }
+    GOWN.loader.load();
+</script>
+
+</body>
+</html>

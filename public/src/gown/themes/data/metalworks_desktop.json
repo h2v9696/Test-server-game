@@ -1,0 +1,90 @@
+{
+  "textStyle": {
+    "fill": "#000",
+    "fontFamily": "Droid Sans"
+  },
+  "thumbSkin": true,
+  "hoverSkin": true,
+  "themeScale": 2.0,
+  "skins": {
+    "button": {
+      "up": {
+        "type": "texture",
+        "texture": "button-up-skin0000",
+        "scale9": "BUTTON_SCALE9_GRID"
+      },
+      "down": {
+        "type": "texture",
+        "texture": "button-down-skin0000",
+        "scale9": "BUTTON_SCALE9_GRID"
+      }
+    },
+    "check": {
+      "up": {
+        "type": "texture",
+        "texture": "check-up-icon0000"
+      },
+      "down": {
+        "type": "texture",
+        "texture": "check-down-icon0000"
+      },
+
+      "selected_up": {
+        "type": "texture",
+        "texture": "check-selected-up-icon0000"
+      },
+      "selected_down": {
+        "type": "texture",
+        "texture": "check-selected-down-icon0000"
+      }
+    },
+    "toggle_button": {
+      "up": {
+        "type": "texture",
+        "texture": "button-up-skin0000",
+        "scale9": "BUTTON_SCALE9_GRID"
+      },
+      "down": {
+        "type": "texture",
+        "texture": "button-down-skin0000",
+        "scale9": "BUTTON_SCALE9_GRID"
+      },
+      "selected_up": {
+        "type": "texture",
+        "texture": "toggle-button-selected-up-skin0000",
+        "scale9": "TOGGLE_BUTTON_SCALE9_GRID"
+      },
+      "selected_down": {
+        "type": "texture",
+        "texture": "button-down-skin0000",
+        "scale9": "BUTTON_SCALE9_GRID"
+      }
+    },
+    "scroll_bar": {
+      "horizontal_track": {
+        "type": "texture",
+        "texture": "background-skin0000",
+        "scale9": "DEFAULT_SCALE9_GRID"
+      },
+      "vertical_track": {
+        "type": "texture",
+        "texture": "background-skin0000",
+        "scale9": "DEFAULT_SCALE9_GRID"
+      }
+    },
+    "scroll_thumb": {
+      "horizontal_up": {
+        "texture": "horizontal-simple-scroll-bar-thumb-skin0000",
+        "type": "texture",
+        "middleWidth": 2,
+        "scale9": "HORIZONTAL_SCROLL_BAR_THUMB_SCALE9_GRID"
+      },
+      "vertical_up": {
+        "texture": "vertical-simple-scroll-bar-thumb-skin0000",
+        "type": "texture",
+        "centerHeight": 2,
+        "scale9": "VERTICAL_SCROLL_BAR_THUMB_SCALE9_GRID"
+      }
+    }
+  }
+}

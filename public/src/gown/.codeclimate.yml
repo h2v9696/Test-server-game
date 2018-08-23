@@ -1,0 +1,19 @@
+# Save as .codeclimate.yml (note leading .) in project root directory
+engines:
+  eslint:
+    enabled: true
+  duplication:
+    enabled: true
+  fixme:
+    enabled: true
+  
+ratings:
+  paths:
+  - src/**
+  - test/src/**
+  - test/unit/*.js
+exclude_paths:
+- "docs/dist/**/**"
+- "docs/lib/**/**"
+- "docs/api/**/**"
+- "docs/examples/example 13 - login dialog/lib/**"
